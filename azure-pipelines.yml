@@ -1,0 +1,59 @@
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  phpRepository: 'dsutter/apdrupal-php'
+  webRepository: 'dsutter/apdrupal-web'
+  containerRegistry: 'dockerhub'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Build the php image
+      inputs:
+        repository: '${{ variables.phpRepository }}'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(tag)
+          latest
+        arguments: '--target php'
+    - task: Docker@2
+      displayName: Push the php image
+      inputs:
+        containerRegistry: '${{ variables.containerRegistry }}'
+        repository: '${{ variables.phpRepository }}'
+        command: 'push'
+        tags: |
+          $(tag)
+          latest
+    - task: Docker@2
+      displayName: Build the web image
+      inputs:
+        repository: '${{ variables.webRepository }}'
+        command: 'build'
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(tag)
+          latest
+        arguments: '--target web'
+    - task: Docker@2
+      displayName: Push the web image
+      inputs:
+        containerRegistry: '${{ variables.containerRegistry }}'
+        repository: '${{ variables.webRepository }}'
+        command: 'push'
+        tags: |
+          $(tag)
+          latest

@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  phpfpm:
+    image: dsutter/azdrupal-php:latest
+    container_name: azdrupal-php
+    environment:
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_DRIVER: $DB_DRIVER
+    volumes:
+      - files:/app/html/sites/default/files:rw
+
+  nginx:
+    image: dsutter/azdrupal-web:latest
+    container_name: azdrupal-web
+    depends_on:
+      - phpfpm
+    ports:
+      - '8080:80'
+    volumes:
+      - files:/app/html/sites/default/files
+
+  mariadb:
+    image: docker.io/bitnami/mariadb:10.6
+    container_name: azdrupal-mariadb
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=$DB_USER
+      - MARIADB_PASSWORD=$DB_PASSWORD
+      - MARIADB_DATABASE=$DB_NAME
+    volumes:
+      - db:/bitnami/mariadb
+
+volumes:
+  db:
+    driver: local
+  files:
+    driver: local
