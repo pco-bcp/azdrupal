@@ -1,5 +1,7 @@
 FROM docker.io/bitnami/php-fpm:8.0 AS builder
-RUN install_packages git patch composer
+RUN install_packages git patch composer wget
+RUN wget http://pki-icp.canada.ca/aia/GOC-GDC-ROOT-A.crt -P /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 COPY . /app/
 WORKDIR /app
 RUN composer install
