@@ -23,6 +23,7 @@ stages:
       displayName: Build the php image
       inputs:
         repository: '${{ variables.phpRepository }}'
+        containerRegistry: '${{ variables.containerRegistry }}'
         command: 'build'
         Dockerfile: 'Dockerfile'
         tags: |
@@ -42,6 +43,7 @@ stages:
       displayName: Build the web image
       inputs:
         repository: '${{ variables.webRepository }}'
+        containerRegistry: '${{ variables.containerRegistry }}'
         command: 'build'
         Dockerfile: 'Dockerfile'
         tags: |
