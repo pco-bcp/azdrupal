@@ -6,18 +6,18 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  phpRepository: 'dsutter/apdrupal-php'
-  webRepository: 'dsutter/apdrupal-web'
-  containerRegistry: 'dockerhub'
+  phpRepository: 'drupal-wxt/php'
+  webRepository: 'drupal-wxt/web'
+  containerRegistry: "Drupal-WxT-BNET (MGMT-Docker)"
 
 stages:
 - stage: Build
   displayName: Build image
   jobs:
   - job: Build
+    pool: PrDc-PBMM_Dev-AgentPool-VM
+
     displayName: Build
-    pool:
-      vmImage: ubuntu-latest
     steps:
     - task: Docker@2
       displayName: Build the php image
