@@ -59,3 +59,30 @@ stages:
         tags: |
           $(tag)
           latest
+- stage: Deploy_to_Dev
+  displayName: Deploy to Dev
+  jobs:
+  - job: Deploy_Web_Image
+    pool: PrDc-PBMM_Dev-AgentPool-VM
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Drupal-WxT-BNET (Dev)'
+        appType: 'webAppContainer'
+        WebAppName: 'wxt-web'
+        DockerNamespace: '${{ variables.webRepository }}'
+        DockerRepository: '${{ variables.containerRegistry }}'
+        DockerImageTag: '$(tag)'
+  - job: Deploy_PHP_Image
+    pool: PrDc-PBMM_Dev-AgentPool-VM
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Drupal-WxT-BNET (Dev)'
+        appType: 'webAppContainer'
+        WebAppName: 'wxt-php'
+        DockerNamespace: '${{ variables.phpRepository }}'
+        DockerRepository: '${{ variables.containerRegistry }}'
+        DockerImageTag: '$(tag)'
