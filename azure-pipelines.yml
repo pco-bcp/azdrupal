@@ -66,11 +66,16 @@ stages:
     pool: PrDc-PBMM_Dev-AgentPool-VM
     steps:
     - task: AzureRmWebAppDeployment@4
+      env: 
+        NODE_OPTIONS: '--use-openssl-ca'
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'Drupal-WxT-BNET (Dev)'
         appType: 'webAppContainer'
         WebAppName: 'wxt-web'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
+        SlotName: 'production'
         DockerNamespace: '${{ variables.webRepository }}'
         DockerRepository: '${{ variables.containerRegistry }}'
         DockerImageTag: '$(tag)'
@@ -78,11 +83,16 @@ stages:
     pool: PrDc-PBMM_Dev-AgentPool-VM
     steps:
     - task: AzureRmWebAppDeployment@4
+      env: 
+        NODE_OPTIONS: '--use-openssl-ca'
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'Drupal-WxT-BNET (Dev)'
         appType: 'webAppContainer'
         WebAppName: 'wxt-php'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
+        SlotName: 'production'
         DockerNamespace: '${{ variables.phpRepository }}'
         DockerRepository: '${{ variables.containerRegistry }}'
         DockerImageTag: '$(tag)'
