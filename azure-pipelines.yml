@@ -9,6 +9,7 @@ variables:
   phpRepository: 'drupal-wxt/php'
   webRepository: 'drupal-wxt/web'
   containerRegistry: "Drupal-WxT-BNET (MGMT-Docker)"
+  contianerRegistryFQDN: "prpcasgdockercr.azurecr.io"
 
 stages:
 - stage: Build
@@ -76,7 +77,7 @@ stages:
         deployToSlotOrASE: true
         ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
         SlotName: 'production'
-        DockerNamespace: '${{ variables.containerRegistry }}'
+        DockerNamespace: '${{ variables.contianerRegistryFQDN }}'
         DockerRepository: '${{ variables.webRepository }}'
         DockerImageTag: '$(tag)'
   - job: Deploy_PHP_Image
@@ -93,6 +94,6 @@ stages:
         deployToSlotOrASE: true
         ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
         SlotName: 'production'
-        DockerNamespace: '${{ variables.containerRegistry }}'
+        DockerNamespace: '${{ variables.contianerRegistryFQDN }}'
         DockerRepository: '${{ variables.phpRepository }}'
         DockerImageTag: '$(tag)'
