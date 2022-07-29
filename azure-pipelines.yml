@@ -76,8 +76,8 @@ stages:
         deployToSlotOrASE: true
         ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
         SlotName: 'production'
-        DockerNamespace: '${{ variables.webRepository }}'
-        DockerRepository: '${{ variables.containerRegistry }}'
+        DockerNamespace: '${{ variables.containerRegistry }}'
+        DockerRepository: '${{ variables.webRepository }}'
         DockerImageTag: '$(tag)'
   - job: Deploy_PHP_Image
     pool: PrDc-PBMM_Dev-AgentPool-VM
@@ -93,6 +93,6 @@ stages:
         deployToSlotOrASE: true
         ResourceGroupName: 'PrDc-PBMM-ILBASE3-ase'
         SlotName: 'production'
-        DockerNamespace: '${{ variables.phpRepository }}'
-        DockerRepository: '${{ variables.containerRegistry }}'
+        DockerNamespace: '${{ variables.containerRegistry }}'
+        DockerRepository: '${{ variables.phpRepository }}'
         DockerImageTag: '$(tag)'
